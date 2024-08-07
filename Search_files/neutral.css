@@ -1,0 +1,20 @@
+@charset "utf-8";
+.header .logo {
+    float: left;
+    width: 120px;
+    height: 48px;
+    background: url("./logo.png") center center no-repeat;
+    margin-left: 15px;
+    margin-right: 100px;
+}
+.login .top .logo {
+    float: left;
+    margin-left: 30px;
+    margin-top: 72px;
+    width: 120px;
+    height: 40px;
+    background: url("./logo.png") center center no-repeat;
+}
+.footerNone {
+    display: none
+}
