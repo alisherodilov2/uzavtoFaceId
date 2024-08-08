@@ -1,7 +1,7 @@
 const puppeteer = require("puppeteer");
 const connectDB = require("./connect");
 const { User, sequelize } = require("./models");
-const moment = require('moment');
+const moment = require("moment");
 
 // Custom delay function
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -50,19 +50,22 @@ const extractTableData = async (page) => {
   });
   for (const row of rows) {
     try {
-      console.log();
-      const date = moment(row.time, 'YYYY-MM-DD HH:mm:ss Z').toDate();
-
       // Create the user record
-      await User.create({
-        fullname: row.name,
-        cardNo: row.cardNo,
-        event: row.eventType,
-        type:0,
-        time: date,
-      });
+      if (row.eventType == "Authenticated via Face") {
+        const date = moment(row.time, "YYYY-MM-DD HH:mm:ss Z").toDate();
 
+        await User.create({
+          fullname: row.name,
+          cardNo: row.cardNo,
+          event: row.eventType,
+          type: 0,
+          time: date,
+        });
       console.log("User created:", row);
+        
+      }
+
+     
     } catch (err) {
       console.error("Error creating user:", err);
     }
