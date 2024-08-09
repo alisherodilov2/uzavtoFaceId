@@ -25,7 +25,6 @@ app.get("/items", async (req, res) => {
     scrapeData(loginUrlFirst, dataUrlFirst, username, password);
     scrapeData(loginUrlSecond, dataUrlSecond, username, password);
     res.status(200).json({ message: "Data scraped successfully" });
-    ``;
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
