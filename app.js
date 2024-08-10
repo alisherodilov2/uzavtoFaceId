@@ -32,9 +32,9 @@ app.get("/items", async (req, res) => {
 app.get("/users", async (req, res) => {
   try {
     const users = await User.findAll({
-      where: {
-        fullname: "Турдибеков Рустам Уразалиевич",
-      },
+      // where: {
+      //   fullname: "Турдибеков Рустам Уразалиевич",
+      // },
       order: [['time', 'DESC']]
     });
     res.json(users);
