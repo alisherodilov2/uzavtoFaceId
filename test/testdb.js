@@ -1,10 +1,5 @@
-// // testModels.js
-// const db = require('../models'); // Adjust path as needed
 
-// console.log('Models loaded:', db);
-// console.log('User model:', db.User); // Check if User model is loaded
-// testDatabase.js
-const { User, sequelize } = require('../models'); // Adjust path as needed
+const { User, sequelize } = require('../models'); 
 
 (async () => {
   try {
