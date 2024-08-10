@@ -7,7 +7,6 @@ const moment = require("moment");
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const login = async (page, username, password) => {
-  console.log("User Model:", User);
   const usernameSelector = "#username";
   const passwordSelector = "#password"; // Ensure this selector is correct
   const submitButtonSelector = "button.btn.btn-primary.login-btn";
@@ -62,10 +61,8 @@ const extractTableData = async (page) => {
           time: date,
         });
       console.log("User created:", row);
-        
       }
 
-     
     } catch (err) {
       console.error("Error creating user:", err);
     }
