@@ -4,7 +4,7 @@ const { scrapeData } = require("./mainCodeOut");
 const { enterScarperData } = require("./enterMainCode");
 const port = 4000;
 const { User } = require("./models"); // Adjust if you have `models/index.js` exporting User
-const { where } = require("sequelize");
+const { Sequelize, Op } = require("sequelize");
 app.use(express.json());
 
 app.get("/items", async (req, res) => {
@@ -31,16 +31,40 @@ app.get("/items", async (req, res) => {
 });
 app.get("/users", async (req, res) => {
   try {
-    const users = await User.findAll({
-      // where: {
-      //   fullname: "Турдибеков Рустам Уразалиевич",
-      // },
-      order: [['time', 'DESC']]
+    const latestUsers = await User.findAll({
+      attributes: [
+        "fullname",
+        [Sequelize.fn("MAX", Sequelize.col("time")), "latestTime"],
+      ],
+      group: ["fullname"],
     });
+    const latestTimes = latestUsers.map((user) => ({
+      fullname: user.fullname,
+      time: user.dataValues.latestTime,
+    }));
+    const users = await User.findAll({
+      where: {
+        [Op.or]: latestTimes.map((lt) => ({
+          fullname: lt.fullname,
+          time: lt.time,
+        })),
+      },
+      order: [["time", "DESC"]],
+    });
+
     res.json(users);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+});
+app.get("/user/:id", async (req, res) => {
+  const userId = req.params.id;
+  const user = await User.findAll({
+    where: {
+      fullname: userId,
+    },
+  });
+  res.send(user);
 });
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}/`);
